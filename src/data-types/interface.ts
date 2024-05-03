@@ -2,11 +2,11 @@ import { BufferDataType } from "./types";
 
 type ExtractedBufferValue<T extends Interface, K extends keyof T> = T[K] extends BufferDataType<infer V> ? V : never;
 
-export type ExtractedBufferValues<T extends Interface> = {
+type ExtractedBufferValues<T extends Interface> = {
 	[K in keyof T]: ExtractedBufferValue<T, K>;
 };
 
-export type Interface = Record<string, BufferDataType<unknown>>;
+type Interface = Record<string, BufferDataType<unknown>>;
 
 /**
  * Creates a type that mimics an interface.
