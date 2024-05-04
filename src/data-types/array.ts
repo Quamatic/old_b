@@ -2,7 +2,9 @@ import { BufferDataType } from "./types";
 import { uint16 } from "./uint16";
 
 /**
- * CCreates a buffer data type representing an array of a specific type.
+ * Creates a buffer data type representing an array of a specific type.
+ *
+ * Note: if a fixed-sized array is required, then just use the tuple data type.
  *
  * @param type The buffer data type of the elements in the array.
  * @param length The buffer data type representing the length of the array (default: uint16).
