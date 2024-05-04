@@ -103,8 +103,8 @@ export class BufferReader implements SharedBufferOperations {
 
 	public readcopy() {
 		const length = buffer.readu32(this.buffer, this.cursor);
-
 		const target = buffer.create(length);
+
 		buffer.copy(target, 0, this.buffer, this.cursor + SIXTEEN_BIT_SIZE, length);
 
 		return target;
@@ -128,5 +128,23 @@ export class BufferReader implements SharedBufferOperations {
 
 	public resetCursor(): void {
 		this.cursor = 0;
+	}
+
+	/**
+	 * Checks to see if the reader has reached the end of the buffer
+	 *
+	 * @example
+	 * const reader = BufferReader.fromString(...)
+	 * while (!reader.eof()) {
+	 * 	const byte = reader.readu8()
+	 * 	print("Byte value:", byte)
+	 * }
+	 *
+	 * print("Reached end of buffer")
+	 *
+	 * @returns `true` if the reader's cursor has reached the size of the buffer
+	 */
+	public eof() {
+		return this.cursor >= this.size;
 	}
 }
