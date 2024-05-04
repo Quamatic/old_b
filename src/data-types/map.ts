@@ -1,19 +1,29 @@
 import { BufferDataType } from "./types";
+import { uint16 } from "./uint16";
 
+/**
+ * Creates a buffer data type representing a Map of key-value pairs.
+ * @param key The buffer data type of the keys in the Map.
+ * @param value The buffer data type of the values in the Map.
+ * @param length The buffer data type representing the length of the Map (default: uint16).
+ */
 export function map<K extends defined, V extends defined>(
 	key: BufferDataType<K>,
 	value: BufferDataType<V>,
+	length: BufferDataType<number> = uint16,
 ): BufferDataType<Map<K, V>> {
 	return {
 		size: () => {
-			return 0;
+			let size = length.size();
+
+			return size;
 		},
 
 		read: (reader) => {
 			const map = new Map<K, V>();
-			const length = reader.readu16();
+			const size = length.read(reader);
 
-			for (const _ of $range(0, length - 1)) {
+			for (const _ of $range(0, size - 1)) {
 				const k = key.read(reader);
 				const v = value.read(reader);
 
@@ -24,8 +34,7 @@ export function map<K extends defined, V extends defined>(
 		},
 
 		write: (writer, map) => {
-			const length = map.size();
-			writer.writeu16(length);
+			length.write(writer, map.size());
 
 			for (const [k, v] of map) {
 				key.write(writer, k);

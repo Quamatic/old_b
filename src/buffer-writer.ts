@@ -7,24 +7,24 @@ import { SharedBufferOperations } from "./types";
  * A wrapper around {@link buffer | buffers} that makes writing to them
  * easy and convenient.
  *
- * The buffer being written to is automatically resized to fit the size requirement
- * of the data being written.
- *
- * Only contains the same method that {@link buffer | buffers} do, for consistency.
+ * The buffer is automatically resized to fit the size requirement of the data being written.
  */
 export class BufferWriter implements SharedBufferOperations {
 	private buffer: buffer;
 	private cursor = 0;
 	private size: number;
 
-	public static fromBuffer(buffer: buffer) {}
+	public static fromString(str: string) {
+		return new BufferWriter(buffer.fromstring(str));
+	}
 
-	/**
-	 * @param initialSize The initial size of the buffer. Defaults to 0.
-	 */
-	constructor(initialSize: number = 0) {
-		this.buffer = buffer.create(initialSize);
-		this.size = initialSize;
+	public static fromSize(size: number) {
+		return new BufferWriter(buffer.create(size));
+	}
+
+	constructor(b: buffer) {
+		this.buffer = b;
+		this.size = buffer.len(b);
 	}
 
 	/**

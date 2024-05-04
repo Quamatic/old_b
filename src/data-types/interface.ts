@@ -2,7 +2,7 @@ import { BufferDataType } from "./types";
 
 type ExtractedBufferValue<T extends Interface, K extends keyof T> = T[K] extends BufferDataType<infer V> ? V : never;
 
-type ExtractedBufferValues<T extends Interface> = {
+type ExtractedBufferValues<T extends Interface, P extends boolean> = {
 	[K in keyof T]: ExtractedBufferValue<T, K>;
 };
 
@@ -14,7 +14,7 @@ type Interface = Record<string, BufferDataType<unknown>>;
  */
 function _interface<const T extends Interface, P extends boolean = false>(
 	struct: T,
-): BufferDataType<ExtractedBufferValues<T>> {
+): BufferDataType<ExtractedBufferValues<T, P>> {
 	const indexToDataType: Record<number, T[keyof T]> = {};
 	const indexToKey: Record<number, keyof T> = {};
 	let count = 0;
@@ -27,10 +27,12 @@ function _interface<const T extends Interface, P extends boolean = false>(
 	}
 
 	return {
-		size: () => 0,
+		size: () => {
+			return 0;
+		},
 
 		read: (reader) => {
-			const constructed = {} as ExtractedBufferValues<T>;
+			const constructed = {} as ExtractedBufferValues<T, P>;
 
 			for (const [index, type] of pairs(indexToDataType)) {
 				const key = indexToKey[index];

@@ -24,6 +24,7 @@
 	],
 	"rules": {
 		"prettier/prettier": "warn",
+		"prefer-const": "off",
 		"simple-import-sort/imports": "warn",
 		"simple-import-sort/exports": "warn"
 	}

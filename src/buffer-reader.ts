@@ -3,6 +3,10 @@
 import { EIGHT_BIT_SIZE, SIXTEEN_BIT_SIZE, SIXTY_FOUR_BIT_SIZE, THIRTY_TWO_BIT_SIZE } from "./constants";
 import { SharedBufferOperations } from "./types";
 
+/**
+ * A wrapper around {@link buffer | buffers} that makes reading from them
+ * easy and convenient.
+ */
 export class BufferReader implements SharedBufferOperations {
 	private readonly buffer: buffer;
 	private size: number;

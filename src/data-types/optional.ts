@@ -2,8 +2,8 @@ import { BufferDataType } from "./types";
 
 export function optional<T>(type: BufferDataType<T>): BufferDataType<T | undefined> {
 	return {
-		size: () => {
-			return 0;
+		size: (value) => {
+			return value === undefined ? 1 : type.size() + 1;
 		},
 
 		read: (reader) => {

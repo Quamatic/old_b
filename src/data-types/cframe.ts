@@ -4,7 +4,7 @@ import { BufferDataType } from "./types";
 export function cframe(type: BufferDataType<number> = float32): BufferDataType<CFrame> {
 	return {
 		size: () => {
-			return 0;
+			return type.size() * 6;
 		},
 
 		read: (reader) => {
