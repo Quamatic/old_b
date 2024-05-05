@@ -3,9 +3,9 @@ import { BufferDataType } from "./types";
 function str<T extends string = string>(): BufferDataType<T> {
 	return {
 		size: (value) => (value !== undefined ? value.size() : 0),
-		read: (reader) => reader.readstring() as T,
+		read: (reader) => reader.readString() as T,
 		write: (writer, value) => {
-			writer.writestring(value);
+			writer.writeString(value);
 		},
 	};
 }

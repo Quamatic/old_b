@@ -1,6 +1,7 @@
 //!native
 
 import { EIGHT_BIT_SIZE, MAX_BUFFER_SIZE, SIXTEEN_BIT_SIZE, THIRTY_TWO_BIT_SIZE } from "./constants";
+import { uint16 } from "./data-types";
 import { BufferDataType } from "./data-types/types";
 import { InferBufferDataType, SharedBufferOperations } from "./types";
 
@@ -23,7 +24,20 @@ export class BufferWriter implements SharedBufferOperations {
 		return new BufferWriter(buffer.create(math.max(size, 0)));
 	}
 
-	public static fromDataType<T extends BufferDataType<unknown>>(dataType: T, value: InferBufferDataType<T>) {
+	/**
+	 * Constructs a {@link BufferWriter} from a {@link BufferDataType | buffer data type}.
+	 *
+	 * The writer is pre-allocated with the size of the data type, and then the data type
+	 * is written to the buffer.
+	 *
+	 * @example
+	 * const writer = BufferWriter.fromBufferDataType(b.uint16, 2048)
+	 *
+	 * @param dataType The buffer data type
+	 * @param value The value of the data type
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public static fromBufferDataType<T extends BufferDataType<any>>(dataType: T, value: InferBufferDataType<T>) {
 		const writer = BufferWriter.fromSize(dataType.size());
 		dataType.write(writer, value);
 
@@ -55,67 +69,67 @@ export class BufferWriter implements SharedBufferOperations {
 		this.size = newBufferSize;
 	}
 
-	public writeu8(value: number) {
+	public writeUInt8(value: number) {
 		this.allocate(EIGHT_BIT_SIZE);
 
 		buffer.writeu8(this.buffer, this.cursor, value);
 		this.cursor += EIGHT_BIT_SIZE;
 	}
 
-	public writeu16(value: number) {
+	public writeUInt16(value: number) {
 		this.allocate(SIXTEEN_BIT_SIZE);
 
 		buffer.writeu16(this.buffer, this.cursor, value);
 		this.cursor += SIXTEEN_BIT_SIZE;
 	}
 
-	public writeu32(value: number) {
+	public writeUInt32(value: number) {
 		this.allocate(THIRTY_TWO_BIT_SIZE);
 
 		buffer.writeu32(this.buffer, this.cursor, value);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 	}
 
-	public writei8(value: number) {
+	public writeInt8(value: number) {
 		this.allocate(EIGHT_BIT_SIZE);
 
 		buffer.writei8(this.buffer, this.cursor, value);
 		this.cursor += EIGHT_BIT_SIZE;
 	}
 
-	public writei16(value: number) {
+	public writeInt16(value: number) {
 		this.allocate(SIXTEEN_BIT_SIZE);
 
 		buffer.writei16(this.buffer, this.cursor, value);
 		this.cursor += SIXTEEN_BIT_SIZE;
 	}
 
-	public writei32(value: number) {
+	public writeInt32(value: number) {
 		this.allocate(THIRTY_TWO_BIT_SIZE);
 
 		buffer.writei32(this.buffer, this.cursor, value);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 	}
 
-	public writef32(value: number) {
+	public writeFloat32(value: number) {
 		this.allocate(THIRTY_TWO_BIT_SIZE);
 
 		buffer.writef32(this.buffer, this.cursor, value);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 	}
 
-	public writef64(value: number) {
+	public writeFloat64(value: number) {
 		this.allocate(EIGHT_BIT_SIZE);
 
 		buffer.writef64(this.buffer, this.cursor, value);
 		this.cursor += EIGHT_BIT_SIZE;
 	}
 
-	public writeboolean(value: boolean) {
-		this.writeu8(value ? 1 : 0);
+	public writeBoolean(value: boolean) {
+		this.writeUInt8(value ? 1 : 0);
 	}
 
-	public writestring(value: string, length?: number) {
+	public writeString(value: string, length?: number) {
 		const len = length !== undefined ? math.min(value.size(), length) : value.size();
 		const size = len + SIXTEEN_BIT_SIZE;
 
@@ -127,7 +141,7 @@ export class BufferWriter implements SharedBufferOperations {
 		this.cursor += size;
 	}
 
-	public writecopy(value: buffer) {
+	public writeBuffer(value: buffer) {
 		const length = buffer.len(value);
 
 		this.allocate(length);

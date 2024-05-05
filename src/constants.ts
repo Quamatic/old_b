@@ -1,5 +1,5 @@
 /**
- * The maximum size (in bytes) that a buffer can allocate.
+ * The maximum size (in bytes) that a buffer can allocate, which is equal to 1GB.
  */
 export const MAX_BUFFER_SIZE = 0x40000000;
 

@@ -8,8 +8,8 @@ export const float16: BufferDataType<number> = {
 	size: () => SIXTEEN_BIT_SIZE,
 
 	read: (reader) => {
-		const b0 = reader.readu8();
-		const b1 = reader.readu8();
+		const b0 = reader.readUInt8();
+		const b1 = reader.readUInt8();
 
 		const signed = bit32.btest(b0, 128);
 		const exponent = (b0 & 127) >> 2;
@@ -57,7 +57,7 @@ export const float16: BufferDataType<number> = {
 			trailing = mantissa & 0xff;
 		}
 
-		writer.writeu8(coefficient);
-		writer.writeu8(mantissa);
+		writer.writeUInt8(coefficient);
+		writer.writeUInt8(mantissa);
 	},
 };

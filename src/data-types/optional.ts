@@ -7,13 +7,13 @@ export function optional<T>(dataType: BufferDataType<T>): BufferDataType<T | und
 		},
 
 		read: (reader) => {
-			const isPresent = reader.readboolean();
+			const isPresent = reader.readBoolean();
 			return isPresent ? dataType.read(reader) : undefined;
 		},
 
 		write: (writer, value) => {
 			const isPresent = value !== undefined;
-			writer.writeboolean(isPresent);
+			writer.writeBoolean(isPresent);
 
 			if (isPresent) {
 				dataType.write(writer, value);

@@ -26,73 +26,73 @@ export class BufferReader implements SharedBufferOperations {
 		this.size = buffer.len(buf);
 	}
 
-	public readu8() {
+	public readUInt8() {
 		const value = buffer.readu8(this.buffer, this.cursor);
 		this.cursor += EIGHT_BIT_SIZE;
 
 		return value;
 	}
 
-	public readu16() {
+	public readUInt16() {
 		const value = buffer.readu16(this.buffer, this.cursor);
 		this.cursor += SIXTEEN_BIT_SIZE;
 
 		return value;
 	}
 
-	public readu32() {
+	public readUInt32() {
 		const value = buffer.readu32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
 		return value;
 	}
 
-	public readi8() {
+	public readInt8() {
 		const value = buffer.readi8(this.buffer, this.cursor);
 		this.cursor += EIGHT_BIT_SIZE;
 
 		return value;
 	}
 
-	public readi16() {
+	public readInt16() {
 		const value = buffer.readi16(this.buffer, this.cursor);
 		this.cursor += SIXTEEN_BIT_SIZE;
 
 		return value;
 	}
 
-	public readi32() {
+	public readInt32() {
 		const value = buffer.readi32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
 		return value;
 	}
 
-	public readf32() {
+	public readFloat32() {
 		const value = buffer.readf32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
 		return value;
 	}
 
-	public readf64() {
+	public readFloat64() {
 		const value = buffer.readf64(this.buffer, this.cursor);
 		this.cursor += SIXTY_FOUR_BIT_SIZE;
 
 		return value;
 	}
 
-	public readboolean() {
-		return this.readu8() === 1 ? true : false;
+	public readBoolean() {
+		return this.readUInt8() === 1 ? true : false;
 	}
 
-	public readstring(length?: number) {
+	public readString(length?: number) {
 		let size: number;
 
 		if (length !== undefined) {
 			size = math.max(0, math.floor(length));
 		} else {
-			size = this.readu16(); // Will add to the cursor
+			size = this.readUInt16(); // Will add to the cursor
 		}
 
 		const value = buffer.readstring(this.buffer, this.cursor, size);
@@ -101,7 +101,7 @@ export class BufferReader implements SharedBufferOperations {
 		return value;
 	}
 
-	public readcopy() {
+	public readBuffer() {
 		const length = buffer.readu32(this.buffer, this.cursor);
 		const target = buffer.create(length);
 

@@ -10,19 +10,19 @@ export function dateTime(millis: boolean = false): BufferDataType<DateTime> {
 
 		read: (reader) => {
 			if (millis) {
-				const unixTimestampMillis = reader.readf64();
+				const unixTimestampMillis = reader.readFloat64();
 				return DateTime.fromUnixTimestampMillis(unixTimestampMillis);
 			} else {
-				const unixTimestamp = reader.readu32();
+				const unixTimestamp = reader.readUInt32();
 				return DateTime.fromUnixTimestamp(unixTimestamp);
 			}
 		},
 
 		write: (writer, value) => {
 			if (millis) {
-				writer.writef64(value.UnixTimestampMillis);
+				writer.writeFloat64(value.UnixTimestampMillis);
 			} else {
-				writer.writeu32(value.UnixTimestamp);
+				writer.writeUInt32(value.UnixTimestamp);
 			}
 		},
 	};

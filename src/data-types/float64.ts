@@ -3,8 +3,8 @@ import { BufferDataType } from "./types";
 
 export const float64: BufferDataType<number> = {
 	size: () => SIXTY_FOUR_BIT_SIZE,
-	read: (reader) => reader.readf64(),
+	read: (reader) => reader.readFloat64(),
 	write: (writer, value) => {
-		writer.writef64(value);
+		writer.writeFloat64(value);
 	},
 };

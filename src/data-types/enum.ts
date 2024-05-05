@@ -18,7 +18,7 @@ export function _enum<E extends Enum>(rbx: E): BufferDataType<InferEnumItems<E>>
 		size: () => (isEightBitSized ? EIGHT_BIT_SIZE : SIXTEEN_BIT_SIZE),
 
 		read: (reader) => {
-			const index = isEightBitSized ? reader.readu8() : reader.readu16();
+			const index = isEightBitSized ? reader.readUInt8() : reader.readUInt16();
 			const value = enums[index];
 
 			return value as InferEnumItems<E>;
@@ -26,9 +26,9 @@ export function _enum<E extends Enum>(rbx: E): BufferDataType<InferEnumItems<E>>
 
 		write: (writer, value) => {
 			if (isEightBitSized) {
-				writer.writeu8(value.Value);
+				writer.writeUInt8(value.Value);
 			} else {
-				writer.writeu16(value.Value);
+				writer.writeUInt16(value.Value);
 			}
 		},
 	};

@@ -3,8 +3,8 @@ import { BufferDataType } from "./types";
 
 export const int16: BufferDataType<number> = {
 	size: () => SIXTEEN_BIT_SIZE,
-	read: (reader) => reader.readi16(),
+	read: (reader) => reader.readInt16(),
 	write: (writer, value) => {
-		writer.writei16(value);
+		writer.writeInt16(value);
 	},
 };

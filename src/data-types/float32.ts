@@ -3,8 +3,8 @@ import { BufferDataType } from "./types";
 
 export const float32: BufferDataType<number> = {
 	size: () => THIRTY_TWO_BIT_SIZE,
-	read: (reader) => reader.readf32(),
+	read: (reader) => reader.readFloat32(),
 	write: (writer, value) => {
-		writer.writef32(value);
+		writer.writeFloat32(value);
 	},
 };
