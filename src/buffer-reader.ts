@@ -26,7 +26,15 @@ export class BufferReader implements SharedBufferOperations {
 		this.size = buffer.len(buf);
 	}
 
+	private assertSizeBounds(bytesRequired: number) {
+		if (this.cursor + bytesRequired > this.size) {
+			throw `Cursor went out of bounds (above the buffer size of ${this.size} bytes)`;
+		}
+	}
+
 	public readUInt8() {
+		this.assertSizeBounds(EIGHT_BIT_SIZE);
+
 		const value = buffer.readu8(this.buffer, this.cursor);
 		this.cursor += EIGHT_BIT_SIZE;
 
@@ -34,6 +42,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readUInt16() {
+		this.assertSizeBounds(SIXTEEN_BIT_SIZE);
+
 		const value = buffer.readu16(this.buffer, this.cursor);
 		this.cursor += SIXTEEN_BIT_SIZE;
 
@@ -41,6 +51,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readUInt32() {
+		this.assertSizeBounds(THIRTY_TWO_BIT_SIZE);
+
 		const value = buffer.readu32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
@@ -48,6 +60,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readInt8() {
+		this.assertSizeBounds(EIGHT_BIT_SIZE);
+
 		const value = buffer.readi8(this.buffer, this.cursor);
 		this.cursor += EIGHT_BIT_SIZE;
 
@@ -55,6 +69,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readInt16() {
+		this.assertSizeBounds(SIXTEEN_BIT_SIZE);
+
 		const value = buffer.readi16(this.buffer, this.cursor);
 		this.cursor += SIXTEEN_BIT_SIZE;
 
@@ -62,6 +78,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readInt32() {
+		this.assertSizeBounds(THIRTY_TWO_BIT_SIZE);
+
 		const value = buffer.readi32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
@@ -69,6 +87,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readFloat32() {
+		this.assertSizeBounds(THIRTY_TWO_BIT_SIZE);
+
 		const value = buffer.readf32(this.buffer, this.cursor);
 		this.cursor += THIRTY_TWO_BIT_SIZE;
 
@@ -76,6 +96,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readFloat64() {
+		this.assertSizeBounds(SIXTY_FOUR_BIT_SIZE);
+
 		const value = buffer.readf64(this.buffer, this.cursor);
 		this.cursor += SIXTY_FOUR_BIT_SIZE;
 
@@ -83,7 +105,8 @@ export class BufferReader implements SharedBufferOperations {
 	}
 
 	public readBoolean() {
-		return this.readUInt8() === 1 ? true : false;
+		const value = this.readUInt8();
+		return value === 1;
 	}
 
 	public readString(length?: number) {
@@ -95,6 +118,8 @@ export class BufferReader implements SharedBufferOperations {
 			size = this.readUInt16(); // Will add to the cursor
 		}
 
+		this.assertSizeBounds(size);
+
 		const value = buffer.readstring(this.buffer, this.cursor, size);
 		this.cursor = size;
 
@@ -103,8 +128,10 @@ export class BufferReader implements SharedBufferOperations {
 
 	public readBuffer() {
 		const length = buffer.readu32(this.buffer, this.cursor);
-		const target = buffer.create(length);
 
+		this.assertSizeBounds(length);
+
+		const target = buffer.create(length);
 		buffer.copy(target, 0, this.buffer, this.cursor + SIXTEEN_BIT_SIZE, length);
 
 		return target;
