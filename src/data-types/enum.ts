@@ -8,10 +8,11 @@ type InferEnumItems<E extends Enum> = {
 const EIGHT_BIT_THRESHOLD = (1 << EIGHT_BIT_SIZE) - 1;
 
 export function _enum<E extends Enum>(rbx: E): BufferDataType<InferEnumItems<E>> {
-	// Most enums dont have anywhere close to a size above 255.
-	// But just in case, we will allow for u16 values when needed.
-	// I only check for eight bit vs sixteen bit because it's obvious there's no need to check for anything higher lol
 	const enums = rbx.GetEnumItems();
+
+	// As of now, the highest enum size is 254 (lol) which is held by Enum.KeyCode.
+	// So currently, no enums will require a 16-bit value.
+	// But this is done just for future proofing.
 	const isEightBitSized = enums.size() < EIGHT_BIT_THRESHOLD;
 
 	return {
