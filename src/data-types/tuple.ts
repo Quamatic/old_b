@@ -21,8 +21,8 @@ export function tuple<T extends Array<BufferDataType<any>>>(...types: T): Buffer
 		size: () => {
 			let total = size;
 
-			for (const type of types) {
-				total += type.size();
+			for (const dataType of types) {
+				total += dataType.size();
 			}
 
 			return total;

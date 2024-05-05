@@ -1,36 +1,36 @@
 import { float32 } from "./float32";
 import { BufferDataType } from "./types";
 
-export function cframe(type: BufferDataType<number> = float32): BufferDataType<CFrame> {
+export function cframe(dataType: BufferDataType<number> = float32): BufferDataType<CFrame> {
 	return {
 		size: () => {
-			return type.size() * 6;
+			return dataType.size() * 6;
 		},
 
 		read: (reader) => {
-			const x = type.read(reader);
-			const y = type.read(reader);
-			const z = type.read(reader);
+			const x = dataType.read(reader);
+			const y = dataType.read(reader);
+			const z = dataType.read(reader);
 
-			const rX = type.read(reader);
-			const rY = type.read(reader);
-			const rZ = type.read(reader);
+			const rX = dataType.read(reader);
+			const rY = dataType.read(reader);
+			const rZ = dataType.read(reader);
 
 			return new CFrame(x, y, z).mul(CFrame.Angles(rX, rY, rZ));
 		},
 
 		write: (writer, value) => {
-			writer.allocate(type.size() * 6);
+			writer.allocate(dataType.size() * 6);
 
-			type.write(writer, value.X);
-			type.write(writer, value.Y);
-			type.write(writer, value.Z);
+			dataType.write(writer, value.X);
+			dataType.write(writer, value.Y);
+			dataType.write(writer, value.Z);
 
 			const [rX, rY, rZ] = value.ToEulerAnglesXYZ();
 
-			type.write(writer, rX);
-			type.write(writer, rY);
-			type.write(writer, rZ);
+			dataType.write(writer, rX);
+			dataType.write(writer, rY);
+			dataType.write(writer, rZ);
 		},
 	};
 }

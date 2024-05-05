@@ -1,26 +1,26 @@
 import { float32 } from "./float32";
 import { BufferDataType } from "./types";
 
-export function vector3(type: BufferDataType<number> = float32): BufferDataType<Vector3> {
+export function vector3(dataType: BufferDataType<number> = float32): BufferDataType<Vector3> {
 	return {
 		size: () => {
-			return type.size() * 3;
+			return dataType.size() * 3;
 		},
 
 		read: (reader) => {
-			const x = type.read(reader);
-			const y = type.read(reader);
-			const z = type.read(reader);
+			const x = dataType.read(reader);
+			const y = dataType.read(reader);
+			const z = dataType.read(reader);
 
 			return new Vector3(x, y, z);
 		},
 
 		write: (writer, value) => {
-			writer.allocate(type.size() * 3);
+			writer.allocate(dataType.size() * 3);
 
-			type.write(writer, value.X);
-			type.write(writer, value.Y);
-			type.write(writer, value.Z);
+			dataType.write(writer, value.X);
+			dataType.write(writer, value.Y);
+			dataType.write(writer, value.Z);
 		},
 	};
 }

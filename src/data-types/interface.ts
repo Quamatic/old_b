@@ -17,8 +17,9 @@ function _interface<const T extends Interface, P extends boolean = false>(
 ): BufferDataType<ExtractedBufferValues<T, P>> {
 	const indexToDataType: Record<number, T[keyof T]> = {};
 	const indexToKey: Record<number, keyof T> = {};
-	let count = 0;
 
+	// Create identifiers
+	let count = 0;
 	for (const [key] of pairs(struct)) {
 		count++;
 

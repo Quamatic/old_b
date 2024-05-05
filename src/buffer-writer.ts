@@ -1,7 +1,8 @@
 //!native
 
 import { EIGHT_BIT_SIZE, MAX_BUFFER_SIZE, SIXTEEN_BIT_SIZE, THIRTY_TWO_BIT_SIZE } from "./constants";
-import { SharedBufferOperations } from "./types";
+import { BufferDataType } from "./data-types/types";
+import { InferBufferDataType, SharedBufferOperations } from "./types";
 
 /**
  * A wrapper around {@link buffer | buffers} that makes writing to them
@@ -19,7 +20,14 @@ export class BufferWriter implements SharedBufferOperations {
 	}
 
 	public static fromSize(size: number) {
-		return new BufferWriter(buffer.create(size));
+		return new BufferWriter(buffer.create(math.max(size, 0)));
+	}
+
+	public static fromDataType<T extends BufferDataType<unknown>>(dataType: T, value: InferBufferDataType<T>) {
+		const writer = BufferWriter.fromSize(dataType.size());
+		dataType.write(writer, value);
+
+		return writer;
 	}
 
 	constructor(b: buffer) {

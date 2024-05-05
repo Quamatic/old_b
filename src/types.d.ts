@@ -1,3 +1,5 @@
+import { BufferDataType } from "./data-types/types";
+
 export interface SharedBufferOperations {
 	/**
 	 * Returns the current known size of the buffer.
@@ -21,3 +23,5 @@ export interface SharedBufferOperations {
 	 */
 	resetCursor(): void;
 }
+
+export type InferBufferDataType<T extends BufferDataType<unknown>> = T extends BufferDataType<infer V> ? V : never;
