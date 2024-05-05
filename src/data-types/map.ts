@@ -3,6 +3,7 @@ import { uint16 } from "./uint16";
 
 /**
  * Creates a buffer data type representing a Map of key-value pairs.
+ *
  * @param key The buffer data type of the keys in the Map.
  * @param value The buffer data type of the values in the Map.
  * @param length The buffer data type representing the length of the Map (default: uint16).

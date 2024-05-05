@@ -14,6 +14,12 @@ export function array<T>(dataType: BufferDataType<T>, length: BufferDataType<num
 		size: (value) => {
 			let size = length.size();
 
+			if (value !== undefined) {
+				for (const element of value) {
+					size += dataType.size(element);
+				}
+			}
+
 			return size;
 		},
 

@@ -9,8 +9,12 @@ type ExtractedBufferValues<T extends Interface, P extends boolean> = {
 type Interface = Record<string, BufferDataType<unknown>>;
 
 /**
- * Creates a type that mimics an interface.
- * @returns
+ * Creates a buffer data type that represents a key-value structure (or interface).
+ *
+ * @param struct The interface definition representing the structured data.
+ *
+ * @template T The interface type representing the structured data.
+ * @template P A boolean type representing whether the data is partial or not. Defaults to `false`.
  */
 function _interface<const T extends Interface, P extends boolean = false>(
 	struct: T,

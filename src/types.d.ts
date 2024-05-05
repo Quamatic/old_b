@@ -24,4 +24,8 @@ export interface SharedBufferOperations {
 	resetCursor(): void;
 }
 
+export type InferBufferValuesFromObject<T extends object> = {
+	[K in keyof T]: T[K] extends BufferDataType<infer V> ? V : never;
+};
+
 export type InferBufferDataType<T extends BufferDataType<unknown>> = T extends BufferDataType<infer V> ? V : never;
